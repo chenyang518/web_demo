@@ -7,7 +7,7 @@
         -->
     <!-- -->
     <div class="sidebar-wrapper" id="style-3">
-      <div class="logo">
+      <!-- <div class="logo">
         <a href="http://www.creative-tim.com"
            aria-label="sidebar mini logo"
            class="simple-text logo-mini">
@@ -21,7 +21,7 @@
         <a href="http://www.creative-tim.com" class="simple-text logo-normal">
           {{title}}
         </a>
-      </div>
+      </div> -->
       <slot>
 
       </slot>

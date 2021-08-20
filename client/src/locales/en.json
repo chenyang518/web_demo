@@ -5,10 +5,12 @@
     "performance": "Performance",
     "simpleTable": "Simple Table",
     "totalShipments": "Total Shipments",
-    "laborReduction":"Labor Reduction",
-    "actual":"Actual",
-    "plan":"Plan",
-    "chartCategories": [
+    "laborReduction": "Labor Reduction",
+    "actual": "Actual",
+    "plan": "Plan",
+    "ciSaving": "Ci Saving",
+    "ciProject": "Ci Project",
+    "chart1Categories": [
       "Recliner",
       "Track",
       "Transmission",
@@ -16,6 +18,21 @@
       "Fine Blanking",
       "Logistics",
       "Total"
+    ],
+    "chart2Categories": [
+      "Keiper Accumlative Total",
+      "Target"
+    ],
+    "unitCategories": [
+      "Track",
+      "Recliner",
+      "Transmission",
+      "Stamping",
+      "Total"
+    ],
+    "timeCategories": [
+      "202106",
+      "202107"
     ],
     "tasks": "Tasks({count})",
     "today": "Today",
@@ -128,6 +145,8 @@
     "tableList": "Table List",
     "typography": "Typography",
     "rtlSupport": "RTL Support",
-    "laborReduction": "Labor Reduction"
+    "laborReduction": "Labor Reduction",
+    "ciSaving": "Ci Saving",
+    "ciProject": "Ci Project"
   }
 }

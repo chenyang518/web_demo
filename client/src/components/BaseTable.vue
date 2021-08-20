@@ -12,8 +12,8 @@
       <slot :row="item">
         <td v-for="(column, index) in columns"
             :key="index"
-            v-if="hasValue(item, column)">
-          {{itemValue(item, column)}}
+            v-if="hasValue(item, column)"
+            v-html="itemValue(item, column)">
         </td>
       </slot>
     </tr>
@@ -60,7 +60,12 @@
         return item[column.toLowerCase()] !== "undefined";
       },
       itemValue(item, column) {
-        return item[column.toLowerCase()];
+        if (column == "PPT Link")
+          return ("<a href='PPT/" + item[column.toLowerCase()] + "'>Click</a>")
+        else if (column == "One Paper Link")
+          return ("<a href='one page/" + item[column.toLowerCase()] + "'>Click</a>")
+        else
+          return item[column.toLowerCase()];
       }
     }
   };

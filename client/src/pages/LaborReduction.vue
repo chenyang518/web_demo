@@ -47,69 +47,15 @@
       </div>
     </div>
   </div>
-    
 </template>
 
 <script>
 import * as chartConfigs from '@/components/Charts/config';
 import config from '@/config';
 import { BaseTable } from "@/components";
-import MyChart from '../components/MyChart';
+import MyChart from '../components/MyChart1';
 import Card from '../components/Cards/Card.vue';
 import axios from 'axios'
-
-const tableColumns = ["Name", "Country", "City", "Salary"];
-const tableData = [
-  {
-    id: 1,
-    name: "Dakota Rice",
-    salary: "$36.738",
-    country: "Niger",
-    city: "Oud-Turnhout",
-  },
-  {
-    id: 2,
-    name: "Minerva Hooper",
-    salary: "$23,789",
-    country: "Curaçao",
-    city: "Sinaai-Waas"
-  },
-  {
-    id: 3,
-    name: "Sage Rodriguez",
-    salary: "$56,142",
-    country: "Netherlands",
-    city: "Baileux"
-  },
-  {
-    id: 4,
-    name: "Philip Chaney",
-    salary: "$38,735",
-    country: "Korea, South",
-    city: "Overland Park"
-  },
-  {
-    id: 5,
-    name: "Doris Greene",
-    salary: "$63,542",
-    country: "Malawi",
-    city: "Feldkirchen in Kärnten"
-  },
-  {
-    id: 6,
-    name: 'Mason Porter',
-    salary: '$98,615',
-    country: 'Chile',
-    city: 'Gloucester'
-  },
-  {
-    id: 7,
-    name: 'Jon Porter',
-    salary: '$78,615',
-    country: 'Portugal',
-    city: 'Gloucester'
-  }
-];
 
 export default {
     components: {
@@ -119,22 +65,19 @@ export default {
     },
     data() {
       return {
-        table2: {
-            columns : [],
-            data: [],
-        },
         table: {
-        columns: [],
-        data: []
+          columns: [],
+          data: []
         },
         myChart: {
-            activeIndex: 0,
-            chartData: {
-                months: [],
-                data1: [],
-                data2: []
-            },
-        }
+          activeIndex: 0,
+          chartData: {
+            months: [],
+            data1: [],
+            data2: []
+          },
+        },
+        timer: {}
       }
     },
     computed: {
@@ -145,22 +88,18 @@ export default {
         return this.$rtl.isRTL;
       },
       myChartCategories() {
-        return this.$t('dashboard.chartCategories');
+        return this.$t('dashboard.chart1Categories');
       },
-    },
-    watch: {
-
     },
     methods: {
         initChart(index) {
             const path = 'http://localhost:5000/labor-reduction';
             axios.get(path)
                 .then((res) => {
-                    
                     this.myChart.chartData.data1 = [];
                     this.myChart.chartData.data2 = [];
                     this.myChart.activeIndex = index;
-                    index = (this.$t('dashboard.chartCategories'))[index] + " Actual";
+                    index = (this.$t('dashboard.chart1Categories'))[index] + " Actual";
                     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     for (var i in res.data) {
                         if (res.data[i]['Headcount'] == index) {
@@ -180,23 +119,23 @@ export default {
             const path = 'http://localhost:5000/labor-reduction';
             axios.get(path)
                 .then((res) => {
+                    this.table.columns = [];
+                    this.table.data = [];
                     this.table.columns =['Headcount','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     var k = 1;
                     var data = [];
                     for (var i in res.data) {
+                        if (i % 2 != 0) {
                         var temp = {
-                            id: k++, Headcount: res.data[i]['Headcount'],
-                            Jan: res.data[i]['Jan'], Feb: res.data[i]['Feb'], Mar: res.data[i]['Mar'], Apr: res.data[i]['Apr'],
-                            May: res.data[i]['May'], Jun: res.data[i]['Jun'], Jul: res.data[i]['Jul'], Aug: res.data[i]['Aug'],
-                            Sep: res.data[i]['Sep'], Oct: res.data[i]['Oct'], Nov: res.data[i]['Nov'], Dec: res.data[i]['Dec'], 
+                            id: k++, headcount: res.data[i]['Headcount'],
+                            jan: res.data[i]['Jan'], feb: res.data[i]['Feb'], mar: res.data[i]['Mar'], apr: res.data[i]['Apr'],
+                            may: res.data[i]['May'], jun: res.data[i]['Jun'], jul: res.data[i]['Jul'], aug: res.data[i]['Aug'],
+                            sep: res.data[i]['Sep'], oct: res.data[i]['Oct'], nov: res.data[i]['Nov'], dec: res.data[i]['Dec'], 
                         };
                         data.push(temp);
-                        console.log(typeof(temp));
+                        }
                     }
                     console.log(data);
-                    console.log(tableData);
-                    console.log(typeof(data));
-                    console.log(typeof(tableData));
                     this.table.data = [...data];
                     console.log(this.table.data);
                 })
@@ -212,16 +151,20 @@ export default {
         this.$rtl.enableRTL();
       }
       this.initChart(0);
-      
+      this.initTable();
     },
     created() {
-        this.initTable();
+        this.timer = setInterval(() => {
+            this.initTable();
+            this.initChart(this.myChart.activeIndex);
+        }, 3000)
     },
     beforeDestroy() {
       if (this.$rtl.isRTL) {
         this.i18n.locale = 'en';
         this.$rtl.disableRTL();
       }
+      clearInterval(this.timer);
     }
 };
 </script>
